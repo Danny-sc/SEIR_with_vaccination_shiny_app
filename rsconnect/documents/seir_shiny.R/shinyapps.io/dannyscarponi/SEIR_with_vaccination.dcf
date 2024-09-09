@@ -1,0 +1,12 @@
+name: SEIR_with_vaccination
+title: SEIR_with_vaccination
+username: dannyscarponi
+account: dannyscarponi
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11909533
+bundleId: 9069514
+url: https://dannyscarponi.shinyapps.io/SEIR_with_vaccination/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

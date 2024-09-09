@@ -1,0 +1,70 @@
+---
+title: "SEIR"
+output: html_notebook
+---
+<span style="font-size:1.5em;">
+
+We use a compartmental epidemiological model, based on the classic SEIR model, to describe the spread and clinical progression of a hypothetical infectious disease (a nice primer to this sort of model is available on [Wikipedia](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology)). Susceptible  individuals $S$ who become infected start out in an exposed class $E$, where they are asymptomatic and do not transmit infection. The rate of progressing from the exposed stage to the infectious stage $I$, where the individual is symptomatic and infectious, occurs at rate $\epsilon$. Infectious individuals recover at rate $\gamma$.
+Recovered individuals are tracked by class $R$ and are assumed to be protected from re-infection for life.  The  transmission rate in stage $I$ is described by $\beta$. 
+
+### Equations
+
+\begin{equation}
+\frac{dS}{dt} = -\beta I S
+\end{equation}
+
+\begin{equation}
+\frac{dE}{dt} =\beta I S - \epsilon E \\
+\end{equation}
+
+\begin{equation}
+\frac{dI}{dt} = \epsilon E - \gamma I \\
+\end{equation}
+
+\begin{equation}
+\frac{dR}{dt}  = \gamma I \\
+\end{equation}
+
+### Variables
+* $S$: Susceptible individuals are those who have never been infected and thus have no immunity
+* $E$: Exposed individuals are those who have been infected but who are not yet able to transmit the infection
+* $I$: Infectious individuals are those who have been infected and are able to transmit the infection
+* $R$: Recovered individuals are those who have recovered from disease and are assumed to be be immune to future infection
+* $N=S+E+I+R$: Total population size (constant)
+
+### Parameters
+* $\beta$: the infection rate between each infectious and susceptible individual
+* $\epsilon$: the rate of progression from the exposed to infectious class
+* $\gamma$: the rate at which individuals in class $I$ recover from disease and become immune
+
+### Relating slider values to model parameters
+
+To determine the model parameters, we collect the following valueswith sliders (left panel): 
+
+* Population size (millions): set the population size in millions
+* Basic Reproductive Number $R_0$: set the number of secondary infections in an otherwise susceptible population caused by a single original infectious individual
+* Number of infectious at outbreak: sets the number of infectious individuals at the start of the simulation
+* Proportion vaccinated (%): set the proportion of vaccinated individuals at outbreak
+* Vaccine efficacy (%): set the level of direct protection provided by vaccination against infection
+* Infectious period (days): set the length of time during which individuals are infectious
+* Latent period: sets the length of time required for an individual who has just been infected to become infectious to others
+* Time frame (days): set the length of time for which the simulation should be run.
+
+The following formulas allow to determine the three main parameters of the model using the values collected from the sliders:
+
+$\beta$ = $R_0$ / [(Infectious period)*N]
+
+$\epsilon$ = 1/(Latent period)
+
+$\gamma$ = 1/(Infectious period)
+
+### Vaccination
+
+Vaccination is implemented right before the beginning of the outbreak, and the vaccination setup is determined by two sliders: "Proportion vaccinated" and "Vaccine efficacy". When "Vaccine efficacy" is set to 100%, a proportion of the population equal to "Proportion vaccinated" is moved from the susceptible compartment to a separate compartment ("Vaccinated") at the start of the outbreak. Individuals in the Vaccinated compartment cannot be infected and remain in that compartment throughout the simulation. When "Vaccine efficacy" is less than 100%, a proportion of the population equal to the product of "Proportion vaccinated" and "Vaccine efficacy" is moved from the susceptible compartment to a separate compartment ("Vaccinated") at the start of the outbreak. As an example, if "Vaccine efficacy" and "Proportion vaccinated" are both 50%, then 25% of the population is moved from the Susceptible to the Vaccinated compartment. If "Vaccine efficacy" is 50% and "Proportion vaccinated" is 10%, then 5% of the population is moved from the Susceptible to the Vaccinated compartment. Note that we have not included the "Vaccinated" compartment in the image above since it does not interact with any other compartment during the whole simulation.
+
+### Assumptions
+
+* This model is formulated as a system of differential equations and the output therefore represents the expected values of each quantity. It does not take into account stochastic events.
+* All non-vaccinated individuals have equal transmission rates and equal susceptiblity to infection
+
+</span>
